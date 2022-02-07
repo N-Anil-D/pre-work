@@ -170,6 +170,7 @@
 		$('#note').show();
 		$('#siparislerime_git').hide();
 		$('.modal_taban').show();
+		$('#confirmModal').show();
 		$('#myModal').modal('show');
 		$('#success_message').removeClass()
 		$('#success_message').text("");
