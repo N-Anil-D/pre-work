@@ -1,16 +1,17 @@
 @extends('layouts.app')
 @section('content')
-<!-- Page Header -->
-<table id="example" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>İsim</th>
-                <th>Adet</th>
-                <th>Fiyat</th>
-                <th>Satın alım tarihi</th>
-            </tr>
-        </thead>
-    </table>
+<div style="width:80%;margin: auto;">
+	<table id="example" class="display" >
+			<thead>
+				<tr>
+					<th>İsim</th>
+					<th>Adet</th>
+					<th>Fiyat</th>
+					<th>Satın alım tarihi</th>
+				</tr>
+			</thead>
+		</table>
+</div>
 @endsection
 @section('scripts')
 
@@ -23,7 +24,6 @@
 		});
 
 		var dataSet = {!! json_encode($tabloArrayi, JSON_HEX_TAG) !!};
-		console.log(dataSet);
 
 		$('#example').DataTable( {
 					data: dataSet,
