@@ -96,7 +96,7 @@ class HomeController extends Controller
         return response()->json([
             'status' => 200,
             'talep' => $talep
-        ]);;
+        ]);
     }
 
     public function urunler()
@@ -159,4 +159,32 @@ class HomeController extends Controller
         }
 
     }
+
+
+    public function siparislerim(){
+
+        
+        $kisinin_siparisleri = Siparislerim::where('user_id',Auth::user()->id)
+        ->orderByDesc('id')
+        ->with(['urun' => function($query){
+            $query->select('id','name','price_wcs');
+        }])
+        ->get();
+        $tabloArrayi = [];
+        // dd($kisinin_siparisleri);
+
+        foreach($kisinin_siparisleri as $kisinin_siparisi){
+
+            $ekle=[
+                $kisinin_siparisi->urun->name,
+                $kisinin_siparisi->adet,
+                $kisinin_siparisi->fiyat,
+                $kisinin_siparisi->created_at->format('Y-m-d H:i:s'),
+            ];
+
+            array_push($tabloArrayi, $ekle);
+        }
+        return view('siparislistesi', ['tabloArrayi' => $tabloArrayi]);
+    }
+
 }

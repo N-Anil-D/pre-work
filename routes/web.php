@@ -23,4 +23,6 @@ Route::post('ticket/send', [HomeController::class, 'send'])->name('send.ticket')
 Route::get('tickets', [HomeController::class, 'list'])->name('list.tickets');
 Route::get('/talep-detaylari/{id}', [HomeController::class, 'details']);
 Route::get('/shoping', [HomeController::class, 'urunler'])->name('tum.urunler');
-Route::POST('/satin-al', [HomeController::class, 'buyCripto']);
+Route::post('/satin-al', [HomeController::class, 'buyCripto']);
+Route::get('/siparislerim', [HomeController::class, 'siparislerim'])->name('tum.siparislerim');
+Route::get('/ajax-siparislerim', [HomeController::class, 'siparislerimAjax']);

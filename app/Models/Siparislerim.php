@@ -16,4 +16,9 @@ class Siparislerim extends Model
     {
         return $this->hasOne(User::class);
     }
+
+    public function urun()
+    {
+        return $this->belongsTo(Urunler::class,'product_id','id');
+    }
 }
