@@ -22,3 +22,5 @@ Route::get('ticket', [HomeController::class, 'show'])->name('show.ticket');
 Route::post('ticket/send', [HomeController::class, 'send'])->name('send.ticket');
 Route::get('tickets', [HomeController::class, 'list'])->name('list.tickets');
 Route::get('/talep-detaylari/{id}', [HomeController::class, 'details']);
+Route::get('/shoping', [HomeController::class, 'urunler'])->name('tum.urunler');
+Route::POST('/satin-al', [HomeController::class, 'buyCripto']);

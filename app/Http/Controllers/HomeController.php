@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 // use \Firebase\JWT\JWT;
 use Illuminate\Support\Arr;
 use App\Models\Talep;
+use App\Models\User;
+use App\Models\Urunler;
+use App\Models\Siparislerim;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Auth;
 
@@ -94,5 +97,66 @@ class HomeController extends Controller
             'status' => 200,
             'talep' => $talep
         ]);;
+    }
+
+    public function urunler()
+    {
+        $uye_bilgileri = User::find(Auth::user()->id);
+
+        $kullanilabilir_miktar = $uye_bilgileri->balance;
+
+        $product = Urunler::get();
+
+        $bilgiler = [
+            'kullanilabilir_miktar' => $kullanilabilir_miktar,
+            'product' => $product,
+        ];
+
+        return view('shoping', $bilgiler);
+    }
+
+    public function buyCripto(Request $request)
+    {
+        $alim_istegi = $request->all();
+
+        $uye_bilgileri = User::select('id','balance')->find($alim_istegi['uye_id']);
+
+        $coin_bilgisi = Urunler::select('id','name','price_wcs')->find($alim_istegi['cripto_id']);
+
+        $ne_kadar_coin_aldi = $alim_istegi['miktar']/$coin_bilgisi->price_wcs;
+        $bakiye_yeterli_mi = $uye_bilgileri->balance - $alim_istegi['miktar'];
+
+        if ($bakiye_yeterli_mi>=0){
+            $bakiye_var = new Siparislerim();
+            $bakiye_var->user_id = $uye_bilgileri->id;
+            $bakiye_var->product_id = $alim_istegi['cripto_id'];
+            $bakiye_var->adet = round($ne_kadar_coin_aldi,8);
+            $bakiye_var->fiyat = $alim_istegi['miktar'];
+            $bakiye_var->odeme = 1;
+            $bakiye_var->status = 1;
+            $bakiye_var->save();
+
+            $uyenin_parasini_azalt = User::find($uye_bilgileri->id);
+            $uyenin_parasini_azalt->balance = $bakiye_yeterli_mi;
+            $uyenin_parasini_azalt->save();
+
+            return response()->json([
+                'status'=>200,
+            ]);    
+        }else{
+            $bakiye_yok = new Siparislerim();
+            $bakiye_yok->user_id = $uye_bilgileri->id;
+            $bakiye_yok->product_id = $alim_istegi['cripto_id'];
+            $bakiye_yok->adet = round($ne_kadar_coin_aldi,8);
+            $bakiye_yok->fiyat = $alim_istegi['miktar'];
+            $bakiye_yok->odeme = 0;
+            $bakiye_yok->status = 0;
+            $bakiye_yok->save();
+            return response()->json([
+                'status'=>400,
+            ]);    
+
+        }
+
     }
 }

@@ -56,6 +56,16 @@
                             </div>
                         </li>
                     </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #660066" v-pre>
+                                {{ "Kripto Coin" }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="nav-link" style="color: #660066" href="{{Auth::check() ? route('tum.urunler') : ''}}">{{ "Coin Al" }}</a>
+                            </div>
+                        </li>
+                    </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
