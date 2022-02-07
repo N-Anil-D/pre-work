@@ -151,7 +151,7 @@
 					<!-- <button class="btn ripple btn-secondary closeModal" onclick="closeModal()" data-dismiss="modal" type="button">{{ __("backoffice/wallet.close") }}</button> -->
 				</div>
 				<div class="alert alert-info" role="alert" id="siparislerime_git">
-					<p>Satın alım ayrıntılarınızı görmek için : <a href="">Siparişlerim</a></p>
+					<p>Satın alım ayrıntılarınızı görmek için : <a href="{{route('tum.siparislerim')}}">Siparişlerim</a></p>
 				</div>
 			</div>
 
