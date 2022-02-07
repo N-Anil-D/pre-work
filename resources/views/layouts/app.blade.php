@@ -67,8 +67,8 @@
                                 {{ "Kripto Coin" }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="nav-link" style="color: #660066" href="{{Auth::check() ? route('tum.urunler') : ''}}">{{ "Coin Al" }}</a>
-                                <a class="nav-link" style="color: #660066" href="{{Auth::check() ? route('tum.siparislerim') : ''}}">{{ "Siparislerim" }}</a>
+                                <a class="nav-link" style="color: #660066" href="{{Auth::check() ? route('all.products') : ''}}">{{ "Coin Al" }}</a>
+                                <a class="nav-link" style="color: #660066" href="{{Auth::check() ? route('all.orders') : ''}}">{{ "Siparislerim" }}</a>
                             </div>
                         </li>
                     </ul>

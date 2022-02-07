@@ -4,10 +4,10 @@
 	<table id="example" class="display" >
 			<thead>
 				<tr>
-					<th>İsim</th>
-					<th>Adet</th>
-					<th>Fiyat</th>
-					<th>Satın alım tarihi</th>
+					<th>Name</th>
+					<th>Amount</th>
+					<th>Cost</th>
+					<th>Date</th>
 				</tr>
 			</thead>
 		</table>
@@ -23,15 +23,15 @@
 			}
 		});
 
-		var dataSet = {!! json_encode($tabloArrayi, JSON_HEX_TAG) !!};
+		var dataSet = {!! json_encode($dt_array, JSON_HEX_TAG) !!};
 
 		$('#example').DataTable( {
 					data: dataSet,
 					columns: [
-						{ title: "İsim" },
-						{ title: "Adet" },
-						{ title: "Fiyat" },
-						{ title: "Satın Alım Tarihi" },
+						{ title: "Name" },
+						{ title: "Amount" },
+						{ title: "Cost" },
+						{ title: "Date" },
 					]
 				} );
 

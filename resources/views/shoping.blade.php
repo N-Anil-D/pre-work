@@ -73,7 +73,7 @@
 		</ol>
 	</div>
 	<div class="btn btn-list">
-		<a class="btn ripple btn-secondary" href="#"><i class="fas fa-wallet"></i> Bakiye:{{ (int) $kullanilabilir_miktar }} WCS</a>
+		<a class="btn ripple btn-secondary" href="#"><i class="fas fa-wallet"></i> Bakiye:{{ (int) $avaliable_balance }} WCS</a>
 
 
 	</div>
@@ -145,13 +145,13 @@
 					<!-- <p class="text-warning">{{ __("backoffice/wallet.infotime") }} </p> -->
 				</div>
 				<div class="modal-footer modal_taban">
-					<button class="btn ripple btn-primary buy" id="confirmModal" value="" type="button">{{ 'Satın Al' }}</button>
+					<button class="btn ripple btn-primary buy" id="confirmModal" value="" type="button">{{ 'Buy' }}</button>
 					<!-- <button class="btn ripple btn-primary" id="confirmModal" type="button">{{ __("backoffice/wallet.approve") }}</button> -->
-					<button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{ 'Vazgeç' }}</button>
+					<button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{ 'Cancel' }}</button>
 					<!-- <button class="btn ripple btn-secondary closeModal" onclick="closeModal()" data-dismiss="modal" type="button">{{ __("backoffice/wallet.close") }}</button> -->
 				</div>
 				<div class="alert alert-info" role="alert" id="siparislerime_git">
-					<p>Satın alım ayrıntılarınızı görmek için : <a href="{{route('tum.siparislerim')}}">Siparişlerim</a></p>
+					<p>Satın alım ayrıntılarınızı görmek için : <a href="{{route('all.orders')}}">Siparişlerim</a></p>
 				</div>
 			</div>
 
@@ -197,7 +197,7 @@
 
 		$.ajax({
 			type: "POST",
-			url: "/satin-al",
+			url: "/buy",
 			data: data,
 			dataType: "json",
 			success: function(response) {

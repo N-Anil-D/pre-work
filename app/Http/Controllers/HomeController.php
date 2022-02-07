@@ -99,16 +99,16 @@ class HomeController extends Controller
         ]);
     }
 
-    public function urunler()
+    public function products()
     {
-        $uye_bilgileri = User::find(Auth::user()->id);
+        $user_info = User::find(Auth::user()->id);
 
-        $kullanilabilir_miktar = $uye_bilgileri->balance;
+        $avaliable_balance = $user_info->balance;
 
         $product = Urunler::get();
 
         $bilgiler = [
-            'kullanilabilir_miktar' => $kullanilabilir_miktar,
+            'avaliable_balance' => $avaliable_balance,
             'product' => $product,
         ];
 
@@ -117,41 +117,41 @@ class HomeController extends Controller
 
     public function buyCripto(Request $request)
     {
-        $alim_istegi = $request->all();
+        $buy_request = $request->all();
 
-        $uye_bilgileri = User::select('id','balance')->find($alim_istegi['uye_id']);
+        $user_info = User::select('id','balance')->find($buy_request['uye_id']);
 
-        $coin_bilgisi = Urunler::select('id','name','price_wcs')->find($alim_istegi['cripto_id']);
+        $coin_info = Urunler::select('id','name','price_wcs')->find($buy_request['cripto_id']);
 
-        $ne_kadar_coin_aldi = $alim_istegi['miktar']/$coin_bilgisi->price_wcs;
-        $bakiye_yeterli_mi = $uye_bilgileri->balance - $alim_istegi['miktar'];
+        $ne_kadar_coin_aldi = $buy_request['miktar']/$coin_info->price_wcs;
+        $is_balance_ok = $user_info->balance - $buy_request['miktar'];
 
-        if ($bakiye_yeterli_mi>=0){
-            $bakiye_var = new Siparislerim();
-            $bakiye_var->user_id = $uye_bilgileri->id;
-            $bakiye_var->product_id = $alim_istegi['cripto_id'];
-            $bakiye_var->adet = round($ne_kadar_coin_aldi,8);
-            $bakiye_var->fiyat = $alim_istegi['miktar'];
-            $bakiye_var->odeme = 1;
-            $bakiye_var->status = 1;
-            $bakiye_var->save();
+        if ($is_balance_ok>=0){
+            $balance_ok = new Siparislerim();
+            $balance_ok->user_id = $user_info->id;
+            $balance_ok->product_id = $buy_request['cripto_id'];
+            $balance_ok->adet = round($ne_kadar_coin_aldi,8);
+            $balance_ok->fiyat = $buy_request['miktar'];
+            $balance_ok->odeme = 1;
+            $balance_ok->status = 1;
+            $balance_ok->save();
 
-            $uyenin_parasini_azalt = User::find($uye_bilgileri->id);
-            $uyenin_parasini_azalt->balance = $bakiye_yeterli_mi;
-            $uyenin_parasini_azalt->save();
+            $decrease_user_balance = User::find($user_info->id);
+            $decrease_user_balance->balance = $is_balance_ok;
+            $decrease_user_balance->save();
 
             return response()->json([
                 'status'=>200,
             ]);    
         }else{
-            $bakiye_yok = new Siparislerim();
-            $bakiye_yok->user_id = $uye_bilgileri->id;
-            $bakiye_yok->product_id = $alim_istegi['cripto_id'];
-            $bakiye_yok->adet = round($ne_kadar_coin_aldi,8);
-            $bakiye_yok->fiyat = $alim_istegi['miktar'];
-            $bakiye_yok->odeme = 0;
-            $bakiye_yok->status = 0;
-            $bakiye_yok->save();
+            $balance_out = new Siparislerim();
+            $balance_out->user_id = $user_info->id;
+            $balance_out->product_id = $buy_request['cripto_id'];
+            $balance_out->adet = round($ne_kadar_coin_aldi,8);
+            $balance_out->fiyat = $buy_request['miktar'];
+            $balance_out->odeme = 0;
+            $balance_out->status = 0;
+            $balance_out->save();
             return response()->json([
                 'status'=>400,
             ]);    
@@ -161,30 +161,30 @@ class HomeController extends Controller
     }
 
 
-    public function siparislerim(){
+    public function myOrders(){
 
         
-        $kisinin_siparisleri = Siparislerim::where('user_id',Auth::user()->id)
+        $user_orders = Siparislerim::where('user_id',Auth::user()->id)
         ->orderByDesc('id')
+        ->where('status','<>', 0)
         ->with(['urun' => function($query){
             $query->select('id','name','price_wcs');
         }])
         ->get();
-        $tabloArrayi = [];
-        // dd($kisinin_siparisleri);
+        $dt_array = [];
 
-        foreach($kisinin_siparisleri as $kisinin_siparisi){
+        foreach($user_orders as $user_order){
 
             $ekle=[
-                $kisinin_siparisi->urun->name,
-                $kisinin_siparisi->adet,
-                $kisinin_siparisi->fiyat,
-                $kisinin_siparisi->created_at->format('Y-m-d H:i:s'),
+                $user_order->urun->name,
+                $user_order->adet,
+                $user_order->fiyat,
+                $user_order->created_at->format('Y-m-d H:i:s'),
             ];
 
-            array_push($tabloArrayi, $ekle);
+            array_push($dt_array, $ekle);
         }
-        return view('siparislistesi', ['tabloArrayi' => $tabloArrayi]);
+        return view('siparislistesi', ['dt_array' => $dt_array]);
     }
 
 }
