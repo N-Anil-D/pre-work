@@ -82,6 +82,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="nav-link" style="color: #737373" href="{{route('signout')}}">{{ "Çıkış" }}</a>
+                                <a class="nav-link" style="color: #737373" href="{{route('locations')}}">{{ "Adres Ekle" }}</a>
                             </div>
                         </li>
                         @endif

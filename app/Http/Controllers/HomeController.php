@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Models\Talep;
 use App\Models\User;
+use App\Models\UserLocations;
 use App\Models\Urunler;
 use App\Models\Siparislerim;
 use App\Mail\SendMail;
@@ -14,6 +15,23 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+    public function locations(){
+
+        return view('addlocation');
+    }
+
+    public function addLocation(Request $request){
+
+        $add_location_to_db = new UserLocations();
+        $add_location_to_db->user_id = Auth::user()->id;
+        $add_location_to_db->country = $request->input()['country'];
+        $add_location_to_db->city = $request->input()['city'];
+        $add_location_to_db->location =$request->input()['location'];
+        $add_location_to_db->save();
+
+        return view('addlocation');
+    }
+
     public function show()
     {
 
@@ -107,9 +125,12 @@ class HomeController extends Controller
 
         $product = Urunler::get();
 
+        $locations = UserLocations::where('user_id', Auth::user()->id)->get();
+
         $bilgiler = [
             'avaliable_balance' => $avaliable_balance,
             'product' => $product,
+            'locations' => $locations,
         ];
 
         return view('shoping', $bilgiler);
@@ -184,7 +205,7 @@ class HomeController extends Controller
 
             array_push($dt_array, $add);
         }
-        return view('siparislistesi', ['dt_array' => $dt_array]);
+        return view('orderlist', ['dt_array' => $dt_array]);
     }
 
 }

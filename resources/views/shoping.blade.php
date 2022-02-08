@@ -81,9 +81,7 @@
 <!-- End Page Header -->
 <!-- Row -->
 <div class="row">
-
 	<div class="col-md-8 col-lg-12">
-
 		<div class="row">
 			@foreach($product as $product)
 			<div class="col-sm-6 col-lg-3">
@@ -123,8 +121,6 @@
 </div>
 
 
-
-
 <div class="container">
 	<!-- Modal -->
 	<div class="modal" id="myModal" role="dialog">
@@ -143,6 +139,13 @@
 					<!-- <p>{{ __("backoffice/wallet.confirmation_text") }} </p> -->
 					<p class="text-warning">{{ '' }} </p>
 					<!-- <p class="text-warning">{{ __("backoffice/wallet.infotime") }} </p> -->
+					<select id="locationSelect" class="form-select">
+						<option value=""></option>
+						@foreach($locations as $location)
+							<option value="{{$location->user_id}}">{{$location->country.'/'.$location->city.'/'.$location->location}}</option>
+						@endforeach
+					</select>
+
 				</div>
 				<div class="modal-footer modal_taban">
 					<button class="btn ripple btn-primary buy" id="confirmModal" value="" type="button">{{ 'Buy' }}</button>

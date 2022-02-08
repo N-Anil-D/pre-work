@@ -48,4 +48,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Siparislerim::class);
     }
+
+
+    public function locations()
+    {
+        return $this->hasMany(UserLocations::class);
+    }
+
 }
