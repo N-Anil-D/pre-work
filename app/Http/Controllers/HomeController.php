@@ -17,7 +17,8 @@ class HomeController extends Controller
 {
     public function locations(){
 
-        return view('addlocation');
+        $my_locations = UserLocations::where('user_id', Auth::user()->id)->get();
+        return view('addlocation', ['my_locations' => $my_locations]);
     }
 
     public function addLocation(Request $request){
