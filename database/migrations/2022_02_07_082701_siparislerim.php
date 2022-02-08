@@ -17,6 +17,7 @@ class Siparislerim extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('product_id');
+            $table->integer('user_location_id');
             $table->double('adet', 8, 5);
             $table->double('fiyat', 8, 5);
             $table->smallInteger('odeme');

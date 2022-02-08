@@ -151,6 +151,7 @@ class HomeController extends Controller
             $balance_ok = new Siparislerim();
             $balance_ok->user_id = $user_info->id;
             $balance_ok->product_id = $buy_request['cripto_id'];
+            $balance_ok->user_location_id = $buy_request['user_location_id'];
             $balance_ok->adet = round($coin_count,8);
             $balance_ok->fiyat = $buy_request['demand'];
             $balance_ok->odeme = 1;
@@ -168,6 +169,7 @@ class HomeController extends Controller
             $balance_out = new Siparislerim();
             $balance_out->user_id = $user_info->id;
             $balance_out->product_id = $buy_request['cripto_id'];
+            $balance_out->user_location_id = $buy_request['user_location_id'];
             $balance_out->adet = round($coin_count,8);
             $balance_out->fiyat = $buy_request['demand'];
             $balance_out->odeme = 0;

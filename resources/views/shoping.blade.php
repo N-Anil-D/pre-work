@@ -139,18 +139,18 @@
 					<!-- <p>{{ __("backoffice/wallet.confirmation_text") }} </p> -->
 					<p class="text-warning">{{ '' }} </p>
 					<!-- <p class="text-warning">{{ __("backoffice/wallet.infotime") }} </p> -->
-					<select id="locationSelect" class="form-select">
-						<option value=""></option>
+					<select id="locationSelect" class="form-select" name="locationSelect">
+						<option selected disabled value="0">Adres Seçiniz</option>
 						@foreach($locations as $location)
-							<option value="{{$location->user_id}}">{{$location->country.'/'.$location->city.'/'.$location->location}}</option>
+							<option value="{{$location->id}}">{{$location->country.'/'.$location->city.'/'.$location->location}}</option>
 						@endforeach
 					</select>
 
 				</div>
 				<div class="modal-footer modal_taban">
-					<button class="btn ripple btn-primary buy" id="confirmModal" value="" type="button">{{ 'Buy' }}</button>
+					<button class="btn ripple btn-primary buy" id="confirmModal" value="" type="button">{{ 'Satın Al' }}</button>
 					<!-- <button class="btn ripple btn-primary" id="confirmModal" type="button">{{ __("backoffice/wallet.approve") }}</button> -->
-					<button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{ 'Cancel' }}</button>
+					<button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{ 'Vazgeç' }}</button>
 					<!-- <button class="btn ripple btn-secondary closeModal" onclick="closeModal()" data-dismiss="modal" type="button">{{ __("backoffice/wallet.close") }}</button> -->
 				</div>
 				<div class="alert alert-info" role="alert" id="siparislerime_git">
@@ -189,7 +189,8 @@
 		var data = {
 			'demand': $('#code').val(),
 			'uye_id': {{Auth::user()->id}},
-			'cripto_id':$(this).val()
+			'cripto_id':$(this).val(),
+			'user_location_id':$('#locationSelect').val()
 		}
 		// console.log(data);
 		$.ajaxSetup({
