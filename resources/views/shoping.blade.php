@@ -184,7 +184,7 @@
 		e.preventDefault();
 
 		var data = {
-			'miktar': $('#code').val(),
+			'demand': $('#code').val(),
 			'uye_id': {{Auth::user()->id}},
 			'cripto_id':$(this).val()
 		}

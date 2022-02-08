@@ -123,15 +123,15 @@ class HomeController extends Controller
 
         $coin_info = Urunler::select('id','name','price_wcs')->find($buy_request['cripto_id']);
 
-        $ne_kadar_coin_aldi = $buy_request['miktar']/$coin_info->price_wcs;
-        $is_balance_ok = $user_info->balance - $buy_request['miktar'];
+        $coin_count = $buy_request['demand']/$coin_info->price_wcs;
+        $is_balance_ok = $user_info->balance - $buy_request['demand'];
 
         if ($is_balance_ok>=0){
             $balance_ok = new Siparislerim();
             $balance_ok->user_id = $user_info->id;
             $balance_ok->product_id = $buy_request['cripto_id'];
-            $balance_ok->adet = round($ne_kadar_coin_aldi,8);
-            $balance_ok->fiyat = $buy_request['miktar'];
+            $balance_ok->adet = round($coin_count,8);
+            $balance_ok->fiyat = $buy_request['demand'];
             $balance_ok->odeme = 1;
             $balance_ok->status = 1;
             $balance_ok->save();
@@ -147,8 +147,8 @@ class HomeController extends Controller
             $balance_out = new Siparislerim();
             $balance_out->user_id = $user_info->id;
             $balance_out->product_id = $buy_request['cripto_id'];
-            $balance_out->adet = round($ne_kadar_coin_aldi,8);
-            $balance_out->fiyat = $buy_request['miktar'];
+            $balance_out->adet = round($coin_count,8);
+            $balance_out->fiyat = $buy_request['demand'];
             $balance_out->odeme = 0;
             $balance_out->status = 0;
             $balance_out->save();
@@ -175,14 +175,14 @@ class HomeController extends Controller
 
         foreach($user_orders as $user_order){
 
-            $ekle=[
+            $add=[
                 $user_order->urun->name,
                 $user_order->adet,
                 $user_order->fiyat,
                 $user_order->created_at->format('Y-m-d H:i:s'),
             ];
 
-            array_push($dt_array, $ekle);
+            array_push($dt_array, $add);
         }
         return view('siparislistesi', ['dt_array' => $dt_array]);
     }
