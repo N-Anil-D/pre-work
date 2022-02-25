@@ -1,15 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Livewire;
 
-use Illuminate\Http\Request;
 use App\Models\GoldSatis;
+use Livewire\Component;
 
-
-class GoldSatisController extends Controller
+class LaGold extends Component
 {
-    public function index(){
 
+    public $mesaj = "++++++++++";
+    public function goldTopla($id){
+
+        $goldToplandi = GoldSatis::find($id);
+        $goldToplandi->toplandimi = 1;
+        $goldToplandi->save();
+
+    }
+    public function render()
+    {
         $veriler = GoldSatis::orderby('saticiadi')->get();
 
         $anilGoldSorgusu = GoldSatis::where('saticiadi','Anıl')->where('toplandimi',0)->get();
@@ -28,32 +36,11 @@ class GoldSatisController extends Controller
             $hilalGold += $hilalGoldArray['elegecendolar'];
         }
 
-        return view('goldukimsatti', [
+        return view('livewire.la-gold', [
             "satislar" => $veriler,
             "anilGold" => $anilGold,
             "cagriGold" => $cagriGold,
             "hilalGold" => $hilalGold
         ]);
-    }
-
-    public function verikaydet(Request $request){
-        $validated = $request->validate([
-            'satici' => 'required',
-            'gold' => 'required|integer',
-            'dolarpergold' => 'required|numeric|lt:10000',
-            'elegecendolar' => 'required|numeric|lt:10000',
-            'tarih' => 'required',
-        ]);
-        $veriler = $request->all();
-        $satisEkle = new GoldSatis();
-        $satisEkle->saticiadi = $veriler['satici'];
-        $satisEkle->gold = $veriler['gold'];
-        $satisEkle->dolarpergold = $veriler['dolarpergold'];
-        $satisEkle->elegecendolar = $veriler['elegecendolar'];
-        $satisEkle->toplandimi = 0;
-        $satisEkle->tarih = $veriler['tarih'];
-        $satisEkle->save();
-
-        return redirect()->route('gold.satis.gir');
     }
 }
