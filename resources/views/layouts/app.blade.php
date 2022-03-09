@@ -72,6 +72,13 @@
                             </div>
                         </li>
                     </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link" href="{{route('gold.satis.gir')}}" aria-haspopup="true" aria-expanded="false" style="color: #660066" v-pre>
+                                {{ "LA Gold Satış" }}
+                            </a>
+                        </li>
+                    </ul>
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->

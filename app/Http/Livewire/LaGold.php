@@ -8,7 +8,6 @@ use Livewire\Component;
 class LaGold extends Component
 {
 
-    public $mesaj = "++++++++++";
     public function goldTopla($id){
 
         $goldToplandi = GoldSatis::find($id);
